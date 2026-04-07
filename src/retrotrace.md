@@ -50,17 +50,3 @@
 [Level Generation Algorithm](level_generation.md)
 
 [Traps](traps.md)
-
-- Abstract digital environment.
-- Slightly reflective black floor.
-- Retro technology.
-- Vaporwave elements.
-- Dark vaporwave palette.
-- Three-dimensional.
-- Central room with free form, an irregular polygon. It should occupy 60% of the image. Inside it, cannons firing luminous balls in all directions. It should have a slightly reflective black floor.
-- Around this room, an abstract environment with vaporwave statues represented in a two-dimensional way. In addition, abstract digital geometric shapes. The edges of this environment should have a very irregular and random shape. The edges should be subtle.
-- Further out, outside this environment, a slightly blurry background with old computer parts. It should not occupy much of the image.
-- Well-spaced objects.
-- Make all 3D shapes much more simplified, low-poly. But keep the realistic shading, with reflectivity on the floor.
-- Keep the perspective non-isometric (realistic).
-- All this will be seen in a top-down perspective.
