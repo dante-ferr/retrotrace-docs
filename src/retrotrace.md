@@ -4,7 +4,7 @@
 
 ### Setup
 
-[Arch Linux dev Setup](Arch%20Linux%20dev%20Setup%20332698a4907580a4a23fd8c24ca2cd63.md)
+[Arch Linux dev Setup](setup.md)
 
 ### Concept & Genre
 
@@ -14,7 +14,7 @@
 
 ### Lore & Theme
 
-[Lore](Lore%20332698a4907580d0a715db2028782588.md)
+[Lore](lore.md)
 
 ### Core Mechanics
 
@@ -24,7 +24,7 @@
 - **Controls:** Draw with one thumb. Scrub backward on the drawn line to undo/rewind without lifting the finger.
 - **Win/Loss:** Reach the exit portal/node to win. Any collision with a bullet/trap hit-box results in instant death and rapid reset.
 
-[Game Modes](Game%20Modes%20333698a4907580919011d567c66a1fc9.md)
+[Game Modes](game_modes.md)
 
 ### Visual Identity
 
@@ -47,20 +47,20 @@
 - **Physics:** 100% Deterministic. Floating-point precision must be strictly managed to ensure the outcome calculated during the Planning State matches the Execution State exactly.
 - **Level Generation:**
 
-[Algoritmo de Geração de Níveis](Algoritmo%20de%20Gera%C3%A7%C3%A3o%20de%20N%C3%ADveis%20332698a49075805c9231d90a4df60f83.md)
+[Level Generation Algorithm](level_generation.md)
 
-[Armadilhas](Armadilhas%20332698a4907580f8b486d3f804c94b10.md)
+[Traps](traps.md)
 
-- Ambiente digital abstrato.
-- Chão preto ligeiramente refletor.
-- Tecnologia retro.
-- Elementos de vaporwave.
-- Paleta vaporwave escura.
-- Tridimensional.
-- Sala central com formato livre, de um polígono irregular. Ela deve ocupar 60% da imagem. Dentro dela, canhões disparando bolas luminosas para todos os lados. Ela deve ter um chão preto ligeiramente refletor
-- Ao redor dessa sala, um ambiente abstrato com estátuas vaporwave representadas de forma bidimensional. Além disso, formas geométricas digitais abstratas. As bordas desse ambiente devem ter um formato bastante irregular e aleatório. As bordas devem ser sutis.
-- Mais externamente ainda, fora desse ambiente, um fundo meio borrado com peças de computadores antigas. Ele não deve ocupar muito da imagem.
-- Objetos bem espaçados.
-- Faça todas as formas 3d serem bem mais simplificadas, lowpoly. Mas mantenha o shading realista, com refletividade no chão.
-- Deixe a perspectiva não-isométrica (realista).
-- Tudo isso será visto em uma perspectiva topwdown.
+- Abstract digital environment.
+- Slightly reflective black floor.
+- Retro technology.
+- Vaporwave elements.
+- Dark vaporwave palette.
+- Three-dimensional.
+- Central room with free form, an irregular polygon. It should occupy 60% of the image. Inside it, cannons firing luminous balls in all directions. It should have a slightly reflective black floor.
+- Around this room, an abstract environment with vaporwave statues represented in a two-dimensional way. In addition, abstract digital geometric shapes. The edges of this environment should have a very irregular and random shape. The edges should be subtle.
+- Further out, outside this environment, a slightly blurry background with old computer parts. It should not occupy much of the image.
+- Well-spaced objects.
+- Make all 3D shapes much more simplified, low-poly. But keep the realistic shading, with reflectivity on the floor.
+- Keep the perspective non-isometric (realistic).
+- All this will be seen in a top-down perspective.
