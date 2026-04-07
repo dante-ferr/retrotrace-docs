@@ -6,7 +6,7 @@ This document describes the gameplay structure and the player's life cycle in th
 
 The "Extended Tutorial". Here the player meets Glitchee, understands his existential boredom, and learns to deal with the traps of each hardware architecture.
 
-[Lore](lore.md)
+Read the [lore](lore.md)
 
 - **Structure:** Divided into several "Machines", located in different worlds.
 - **Sawtooth Progression:**
@@ -21,7 +21,7 @@ The "Extended Tutorial". Here the player meets Glitchee, understands his existen
 The social and competitive mode, focused on daily retention and community events.
 
 - **Concept:** Every week, the backend (automated pipeline in Rust) generates a set of 10 fixed levels for all players worldwide.
-- **Availability:** Unlocked early (after World 3 - Home Router). Serves to keep engagement if the player gets stuck on a difficult story level.
+- **Availability:** Unlocked early (after Phase 2, System 5 - The 56k Gateway). Serves to keep engagement if the player gets stuck on a difficult story level.
 - **Ranking (Hz/Efficiency):** Players are ranked by:
     1. **Code Efficiency:** Total length of the drawn line (the shorter, the better).
     2. **Near-Misses:** Number of times Glitchee passed within less than 1 collision unit without dying.
@@ -32,7 +32,7 @@ The social and competitive mode, focused on daily retention and community events
 
 The true *Endgame*. Here, the procedural engine in Rust is pushed to the limit, generating challenges that the original machines could never support.
 
-- **Lore:** Glitchee uses the processing power of the Hivemind to run Virtual Machines (VMs). He recreates old environments (like the "Potato Box"), but with "Compilation Flags" that alter the laws of physics.
+- **Lore:** Glitchee uses the processing power of the Hivemind to run Virtual Machines (VMs). He recreates old environments (like the "Com-Plus 64" or the "Potato Box"), but with "Compilation Flags" that alter the laws of physics.
 - **100% Procedural Generation:** Unlike Story Mode, walls, trajectories, and traps are generated in real-time by the causal regression algorithm.
 - **Mutation Modifiers (Mutators):** Every 50 levels, a new "Error Flag" is activated in the VM:
     - `-packet-loss`: Projectiles blink (become intermittently invisible).
@@ -44,9 +44,9 @@ The true *Endgame*. Here, the procedural engine in Rust is pushed to the limit, 
 
 | Phase | Active Mode | Player Focus | Goal |
 | --- | --- | --- | --- |
-| **Early Game** | Story (Worlds 1-3) | Learn basic mechanics. | Survive the Potato Box. |
-| **Mid Game** | Story + Zero-Day | Collect skins and compete. | Master mutable traps. |
-| **Late Game** | Story (Worlds 7-10) | Solve complex puzzles. | Subjugate the Hivemind. |
+| **Early Game** | Story (Phase 1: Systems 1-4) | Learn basic mechanics. | Escape the Com-Plus 64. |
+| **Mid Game** | Story + Zero-Day (Phase 2) | Collect skins and compete. | Breach the Office Intranet. |
+| **Late Game** | Story (Phases 3 & 4) | Solve complex puzzles. | Subjugate the Hivemind. |
 | **End Game** | Infinite Simulation | Break level records. | Reach Level 1000+ with Mutators. |
 
 ## Technical Notes for Development (Rust/Godot)
