@@ -49,13 +49,17 @@ To compile for Android from Arch, you need to add the Rust targets:
 rustup target add aarch64-linux-android armv7-linux-androideabi
 ```
 
-### Automation (Makefile or Justfile)
+### Automation & Debugging (Makefile)
 
-Don't compile manually. Create a script that:
+Don't compile manually. We use a `Makefile` combined with a `.vscode.template/` to provide a unified workflow.
 
-1. Compiles Rust for the desired target.
-2. Moves the generated `.so` to `godot/bin/`.
-3. Opens Godot.
+1. Run `make setup` to copy the provided `.vscode.template/` files to your local git-ignored `.vscode/` directory.
+2. In VS Code, open the **Run and Debug** panel and launch "Debug Godot (Rust)".
+3. This automatically triggers `make build` (defined in `tasks.json`), starts the Godot game, and attaches CodeLLDB to it, allowing you to hit breakpoints in your Rust code.
+
+If you prefer terminal commands:
+- `make run`: Compiles Rust and plays the game.
+- `make edit`: Compiles Rust and opens the Godot Editor.
 
 ### Ads and IAP (Microtransactions)
 
