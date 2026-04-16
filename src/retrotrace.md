@@ -41,12 +41,9 @@
 - **Planning Phase:** Strict Top-down (Orthographic) for tactical precision.
 - **Execution Phase:** Procedural Cinematic Camera. Tilts down to a chase perspective, uses *LookAt* to anticipate upcoming curves on the spline, and dynamically adjusts FOV based on speed and near-misses.
 
-### Technical Architecture & Engineering
+### Level Generation Architectures (Decision Pending)
 
-- **Languages:** Rust (Focus on performance, memory safety, and determinism) and GDScript (to handle visual elements & utilities like ads).
-- **Physics:** 100% Deterministic. Floating-point precision must be strictly managed to ensure the outcome calculated during the Planning State matches the Execution State exactly.
-- **Level Generation:**
-
-[Level Generation Algorithm](level_generation.md)
+- [Retrocausal Level Generation (Inverse Math)](retrocausal_level_generation.md)
+- [Iterative Forward Rejection (The Choreographer)](iterative_forward_rejection.md)
 
 [Traps](traps.md)
