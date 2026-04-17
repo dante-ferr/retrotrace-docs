@@ -51,3 +51,27 @@ This ensures that even the most complex "Rube Goldberg" style trap interactions 
     * **Yes:** Nudge parameters and GOTO 3.
     * **No:** Lock parameters and place the next Trap.
 5. Repeat until the level density is sufficient.
+
+## 6. The "Blame Game" (Resolving Chaotic Collisions)
+
+When a complex interaction occurs (e.g., a Cannon shoots a Disk, the Disk hits the STC), the algorithm must decide which entity to adjust. This is resolved efficiently using the **"Last-In" Rule**.
+
+Instead of reverse-tracing physics to assign blame, the algorithm places and fully validates traps one at a time. The level is strictly maintained in a "mathematically safe state." 
+- If a Cannon is placed and safely validated, and then a Disk is placed which gets hit by the Cannon and diverted into the player, the **Disk** is blamed and nudged.
+- The fault always lies with the entity that broke the previously validated safe state.
+
+To prevent infinite loops where a new trap cannot fit safely, a **Backtracking Safety Valve** is used:
+1. **Nudge Limit:** If an entity is nudged X times and still fails, it is discarded.
+2. **Type Swap:** A different trap type is attempted in that slot.
+3. **True Backtracking:** If no trap can fit, the system deletes the *previously* placed trap and perturbs the one before it, un-sticking the algorithm.
+
+## 7. Performance and Hardware Considerations
+
+**Rust's Computational Power**
+Rust is exceptionally well-suited for Iterative Forward Rejection. Because the forward simulation relies on standard 2D vector kinematics (which are mathematically lightweight) without the overhead of deep reverse-state tracking or physics engine rendering, Rust can execute tens of thousands of "place-simulate-check" loops per second.
+
+**Preprocessing vs. Runtime Generation (Smartphones)**
+The processing is **entirely doable in real-time on modern smartphones**. 
+- The 2D math required for simulating a handful of bouncing entities over a few seconds is minuscule compared to rendering complex graphics.
+- Levels can be procedurally generated *on the device* during a short loading screen (e.g., < 0.1s) when the player starts a run, eliminating the need to pre-generate and download massive level databases.
+- Because Rust is compiled to highly optimized native machine code (via GDExtension), the generation loop will be imperceptible to the user.
