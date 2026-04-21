@@ -1,4 +1,4 @@
-# Level Generation Algorithm
+# Retrocausal Level Generation (Inverse Math)
 
 [Architecture Idea](architecture.md)
 
