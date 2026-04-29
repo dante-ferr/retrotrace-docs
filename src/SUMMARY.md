@@ -7,4 +7,6 @@
 - [Retrocausal Level Generation](./retrocausal_level_generation.md)
 - [Iterative Forward Rejection](./iterative_forward_rejection.md)
 - [Architecture Idea](./architecture.md)
+- [Procedural Models](./models.md)
 - [Traps](./traps.md)
+- [Models](./models.md)
