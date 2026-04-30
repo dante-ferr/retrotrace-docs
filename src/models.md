@@ -9,68 +9,66 @@ Each model is defined in a `.model.toml` file located in `godot/data/instances/`
 ### Example: `cannon.model.toml`
 
 ```toml
+# Top-level transform for the entire model
+offset = [0.0, 0.0, 0.0]
+rotation = [0.0, 45.0, 0.0]
+
+# Local reusable parts
+[definitions.muzzle]
+shape = "box"
+size = [0.4, 0.4, 0.4]
+
 [[parts]]
 name = "base"
-shape = "box"
-size = [2.0, 1.0, 2.0]
-offset = [0.0, 0.5, 0.0]
-...
+shape = "prism"
+radius = 1.0
+length = 0.5
+sides = 6
+
+  [[parts.children]]
+  name = "gun_muzzle"
+  use = "muzzle" # Uses the local definition
+  offset = [0.0, 1.0, 0.5]
 ```
 
-## Instance Configuration
+## Primitive Shapes
 
-Non-visual parameters (speed, delay, etc.) are defined in a companion `.toml` file (without `.model`).
-
-### Example: `cannon.toml`
-
-```toml
-shoot_delay = 2.0
-bullet_speed = 500.0
-```
-
-### Properties
-
-| Property | Description | Values |
+| Shape | Required Properties | Optional Properties |
 | :--- | :--- | :--- |
-| `name` | The name of the part (will be the Node name in Godot). | String |
-| `shape` | The primitive type. | `"box"`, `"cylinder"` |
-| `size` | Size of the box. | `[x, y, z]` (floats) |
-| `radius` | Radius of the cylinder. | Float |
-| `length` | Length/Height of the cylinder. | Float |
-| `segments` | Level of detail for the cylinder. | Integer (e.g., 12 for low-poly) |
-| `offset` | Position offset from the model origin. | `[x, y, z]` (floats) |
-| `rotation`| Euler rotation in degrees. | `[x, y, z]` (floats) |
+| `box` | `size: [x, y, z]` | - |
+| `cylinder` | `radius`, `length` | `segments` (default: 16) |
+| `sphere` | `radius` | `rings`, `slices` (default: 16) |
+| `prism` | `radius`, `length` | `sides` (default: 3) |
+| `pyramid` | `radius`, `height` | `sides` (default: 3) |
+| `custom` | `vertices: [[x,y,z], ...]`, `faces: [[i,j,k], ...]` | Faces use CCW winding. |
+
+## Reusable Parts (`definitions`)
+
+The system supports both **local** and **global** part definitions to reduce redundancy.
+
+1.  **Local Definitions**: Defined within the same `.model.toml` file using the `[definitions.NAME]` block.
+2.  **Global Definitions**: Any definition found in any `.model.toml` file within `godot/data/` is automatically available to all other models.
+3.  **The `use` Keyword**: Assign `use = "definition_name"` to a part to inherit its geometry.
+    *   **Merging**: Local `offset`, `rotation`, and `children` are added to/appended to the template's properties.
+    *   **Namespacing**: The system automatically prefixes child node names to avoid collisions when reusing the same part multiple times (e.g., legs of a tripod).
 
 ## The Mesh Builder (Rust)
 
 The core logic resides in `rust/src/godot_bindings/mesh_builder.rs`. It handles:
-1.  **Vertex Generation:** Calculating positions and normals for primitives.
-2.  **Transformation:** Applying offsets and rotations in Rust before sending data to Godot.
-3.  **Godot Integration:** Constructing `ArrayMesh` objects from raw vertex arrays.
+1.  **Polyhedron Generation**: A generic generator handles `custom`, `prism`, and `pyramid` shapes using flat shading and CCW winding.
+2.  **Transformation**: Applying offsets and rotations recursively.
+3.  **Part Resolution**: Resolving `use` references by searching local then global maps.
 
 ## Workflow
 
-### Runtime Generation
-To use a model at runtime, you can use the `MeshBuilder` in your Rust `GdExtension` code:
-
-```rust
-// Inside a GodotClass implementation
-fn ready(&mut self) {
-    let config = self.config_manager.get_models_config().unwrap();
-    if let Some(model_def) = config.models.get("cannon") {
-        MeshBuilder::instantiate_model(model_def, &mut self.base_node);
-    }
-}
-```
-
 ### Baking for the Editor
-If you want to preview models in the Godot Editor without running the game, use the bake command:
+To preview models in the Godot Editor or update assets after a config change:
 
 ```bash
 make bake-models
 ```
 
-This will:
-1.  Compile the Rust library.
-2.  Run a headless Godot instance with `scripts/model_baker.gd`.
-3.  Save native Godot `.mesh` files into `godot/assets/models/`.
+This triggers the `ModelBaker` which:
+1.  Scans all `.model.toml` files for global definitions.
+2.  Resolves all part hierarchies.
+3.  Saves native Godot `.mesh` and `.tscn` (Scene) files into `godot/assets/models/`.
