@@ -6,7 +6,6 @@
 - [Game Modes](./game_modes.md)
 - [Retrocausal Level Generation](./retrocausal_level_generation.md)
 - [Iterative Forward Rejection](./iterative_forward_rejection.md)
-- [Architecture Idea](./architecture.md)
+- [Project Architecture](./project_architecture.md)
 - [Procedural Models](./models.md)
 - [Traps](./traps.md)
-- [Models](./models.md)
