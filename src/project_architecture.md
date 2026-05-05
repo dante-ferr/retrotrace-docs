@@ -23,7 +23,7 @@ The foundation of the game is data. All gameplay parameters, entity stats, and g
 
 ### 2. Config Handling (Rust)
 This layer provides strongly-typed Rust representations of the TOML data.
-- **Location:** `rust/src/core/config/`
+- **Location:** `rust/src/config/`
 - **Responsibilities:**
     - Parsing TOML into Rust structs via `serde`.
     - **Validation:** Implementing `ConfigValidate` to ensure values are within logical bounds.
