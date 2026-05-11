@@ -80,6 +80,4 @@ For performance-critical systems like the Level Generator, the project includes 
 - **Execution:** `make test-level amount=100`
 
 ### Logging & Debugging
-The project uses the standard `log` crate for internal instrumentation.
-- **Standalone Tests:** Logs are **silenced by default** to keep test output clean, even if `log::info!` or `log::debug!` calls are present in the core logic. This allows developers to add temporary debug prints without polluting stress-test results.
-- **In-Game:** To see these logs in Godot, a logger implementation that redirects to `godot_print!` can be added to the GDExtension initialization.
+The project uses the standard `log` crate for internal instrumentation. See the [Logging & Debugging](./logging.md) guide for details on environment-specific behavior and best practices.

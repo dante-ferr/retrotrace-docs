@@ -15,5 +15,6 @@
 - [Procedural Models](./models.md)
 
 ## Reference
+- [Logging & Debugging](./logging.md)
 - [Trap Compendium](./traps.md)
 - [Credits](./credits.md)
