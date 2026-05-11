@@ -74,5 +74,12 @@ The Central Engine does not process specific trap physics. It only delegates gen
 ### Data-Driven Design
 Behavior is dictated by data (`.toml`) rather than hardcoded class hierarchies. Adding a "new" type of cannon often just involves creating a new `.toml` entry with different properties rather than writing new code.
 
-### Hexagonal Architecture (Clean Architecture)
-By keeping the **Core** at the center and using **Bindings** as adapters, the simulation is completely isolated. Godot is treated strictly as a "presentation" plugin that can be replaced or updated without breaking the core game rules.
+### Standalone Testing
+For performance-critical systems like the Level Generator, the project includes standalone Rust binaries that can be run outside of Godot. This allows for high-speed stress testing and validation without the overhead of the engine.
+- **Level Test Script:** `rust/src/core/scripts/level_test.rs`
+- **Execution:** `make test-level amount=100`
+
+### Logging & Debugging
+The project uses the standard `log` crate for internal instrumentation.
+- **Standalone Tests:** Logs are **silenced by default** to keep test output clean, even if `log::info!` or `log::debug!` calls are present in the core logic. This allows developers to add temporary debug prints without polluting stress-test results.
+- **In-Game:** To see these logs in Godot, a logger implementation that redirects to `godot_print!` can be added to the GDExtension initialization.
