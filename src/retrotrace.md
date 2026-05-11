@@ -41,9 +41,10 @@
 - **Planning Phase:** Strict Top-down (Orthographic) for tactical precision.
 - **Execution Phase:** Procedural Cinematic Camera. Tilts down to a chase perspective, uses *LookAt* to anticipate upcoming curves on the spline, and dynamically adjusts FOV based on speed and near-misses.
 
-### Level Generation Architectures (Decision Pending)
+### Level Generation Architecture
 
-- [Retrocausal Level Generation (Inverse Math)](retrocausal_level_generation.md)
-- [Iterative Forward Rejection (The Choreographer)](iterative_forward_rejection.md)
+The engine uses **Iterative Forward Rejection (IFR)** to choreograph traps around the player's path. This ensures high visual tension and "near-miss" moments while guaranteeing a safe, winnable route.
+
+See [Iterative Forward Rejection (IFR)](./iterative_forward_rejection.md) for technical details.
 
 [Traps](traps.md)

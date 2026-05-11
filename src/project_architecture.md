@@ -38,9 +38,11 @@ The "Brain" of the game. This layer contains the pure simulation logic, physics,
 - **Contract Example:**
   ```rust
   pub trait Entity {
-      type Config;
-      fn apply_config(&mut self, config: &Self::Config);
-      fn update(&mut self, delta: f64);
+      /// Updates the entity state and returns any events triggered (e.g., spawning hazards).
+      fn update(&mut self, delta: f64) -> Vec<EntityEvent>;
+      
+      fn get_position(&self) -> Vec2;
+      fn get_radius(&self) -> f64;
   }
   ```
 

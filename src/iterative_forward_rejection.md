@@ -1,6 +1,6 @@
 # Iterative Forward Rejection (The Choreographer)
 
-[Architecture Idea](architecture.md)
+[Architecture Idea](project_architecture.md)
 
 This document describes an alternative mathematical architecture for level generation. Instead of inverting the physics (retrocausal), this approach uses fast forward-simulation and "smart rejection" to ensure the player's path is safe while allowing for complex, chaotic physical interactions.
 
