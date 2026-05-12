@@ -30,7 +30,18 @@ Unlike the Retrocausal approach, which calculates prohibitions backwards, the It
 - **Visual Tension:** By "nudging" a trap's parameters until it *just barely* misses the STC, we can mathematically guarantee "near-miss" moments that look intentional and exciting.
 - **Performance:** Forward simulation of a few objects is extremely fast. We can run hundreds of "nudge-and-test" iterations in milliseconds.
 
-## 4. Multi-Body Interactions and Cascades
+## 4. State Safety: Definition vs. Core
+
+A critical challenge of IFR is ensuring that re-simulating a trap (Step 5 in the loop) starts from a perfectly clean state. If a trap has internal timers or state machines, any "leftover" data from a previous failed simulation could pollute the next attempt.
+
+To solve this, Retrotrace uses a **Definition/Core** split:
+1.  The **Definition** (Blueprint) holds the nudged parameters.
+2.  Every simulation attempt calls `instantiate_simulation()` to create a brand-new **Core** (Live Entity).
+3.  The simulation runs, the Core is discarded, and the Definition is nudged if needed.
+
+This architectural pattern makes the "time travel" of IFR mathematically safe and prevents state leakage bugs.
+
+## 5. Multi-Body Interactions and Cascades
 
 When a trap is added that interacts with another (e.g., a cannon firing at a movable shield), the system simulates the entire "causal chain" forward.
 

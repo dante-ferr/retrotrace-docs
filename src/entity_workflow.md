@@ -10,7 +10,7 @@ Entities reside in `rust/src/core/entity/`. Every entity is defined by its **Cor
 pub struct MyEntityCore {
     pub position: Vec2,
     pub config: MyEntityConfig,
-    // Add dynamic simulation state here
+    // Add dynamic simulation state here (e.g., timers)
 }
 ```
 
@@ -32,10 +32,12 @@ Entities do not "create" other entities. They emit events.
 
 ## 4. Configuration Wrapper
 
-Always store static properties (from TOML) in a dedicated `config` field inside your core struct. This separates **Initial Settings** from **Runtime State**.
+Always store static properties (from TOML) in a dedicated `config` field. 
+- For non-trap entities, this usually lives directly in the **Core** struct.
+- For traps, the static config lives in the **Definition** struct, which passes it to the **Core** upon instantiation.
 
 ---
 
 ### Specializations:
-- For entities that pose a threat to the player, see [Creating Traps](./developing_traps.md).
+- For entities that pose a threat to the player and require generator-time placement, see [Developing New Traps](./developing_traps.md).
 - For visual representation settings, see [Procedural Models](./models.md).

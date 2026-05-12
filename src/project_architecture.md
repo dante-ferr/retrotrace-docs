@@ -33,8 +33,9 @@ This layer provides strongly-typed Rust representations of the TOML data.
 The "Brain" of the game. This layer contains the pure simulation logic, physics, and mathematical calculations. It is completely unaware of Godot.
 - **Location:** `rust/src/core/entity/`, `rust/src/core/level/`
 - **Key Concepts:**
-    - **Inversion of Control (Traits):** Uses the `Entity` trait to define a "contract" for all objects. The engine delegates mathematical calculations (like STC intersections) to the entities without knowing their specific types.
+    - **Inversion of Control (Traits):** Uses the `Entity` and `TrapDefinition` traits to define a "contract" for all objects. The engine delegates mathematical calculations to the entities without knowing their specific types.
     - **Simulation State:** Manages the 2D plane logic that powers the 3D visuals.
+    - **Determinism:** All logic relies on seeded RNG to ensure 100% reproducible results for both generation and gameplay.
 - **Contract Example:**
   ```rust
   pub trait Entity {
@@ -69,7 +70,10 @@ The high-level logic that manages the "experience."
 ## Key Design Patterns
 
 ### Inversion of Control via Contract
-The Central Engine does not process specific trap physics. It only delegates generic geometric and temporal calculations to each entity via the `Entity` and `Trap` traits.
+The Central Engine does not process specific trap physics. It only delegates generic geometric and temporal calculations to each entity via the `Entity` and `TrapDefinition` traits.
+
+### Trap Definition / Core Separation
+To ensure clean simulation states during procedural generation, traps are split into **Definitions** (blueprints) and **Cores** (live simulation). Every attempt to place a trap creates a fresh Core, preventing state pollution.
 
 ### Data-Driven Design
 Behavior is dictated by data (`.toml`) rather than hardcoded class hierarchies. Adding a "new" type of cannon often just involves creating a new `.toml` entry with different properties rather than writing new code.
