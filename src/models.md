@@ -36,6 +36,7 @@ sides = 6
 | Shape | Required Properties | Optional Properties |
 | :--- | :--- | :--- |
 | `box` | `size: [x, y, z]` | - |
+| `circle` | `radius` | - |
 | `cylinder` | `radius`, `length` | `segments` (default: 16) |
 | `sphere` | `radius` | `rings`, `slices` (default: 16) |
 | `prism` | `radius`, `length` | `sides` (default: 3) |
@@ -51,6 +52,15 @@ The system supports both **local** and **global** part definitions to reduce red
 3.  **The `use` Keyword**: Assign `use = "definition_name"` to a part to inherit its geometry.
     *   **Merging**: Local `offset`, `rotation`, and `children` are added to/appended to the template's properties.
     *   **Namespacing**: The system automatically prefixes child node names to avoid collisions when reusing the same part multiple times (e.g., legs of a tripod).
+
+## Visual Auto-Scaling
+
+When an entity defines a `visual` configuration in its TOML file, the engine will automatically scale the procedural model to match the entity's `physics` size.
+
+- If the model is `source = "generated"`, you can optionally specify a `reference_part` in the visual config. The engine will search the model definition for this part and use its radius as the base for the scaling calculation.
+- The `hitbox_ratio` property in the visual config (default: 1.0) can be used to make the model slightly larger or smaller than its actual physical hitbox.
+- A manual `scale = [x, y, z]` can still be provided in the visual config to override the auto-scaling behavior.
+- A manual `offset = [x, y, z]` can be used to offset the model from the physical center.
 
 ## The Mesh Builder (Rust)
 

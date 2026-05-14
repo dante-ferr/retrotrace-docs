@@ -6,7 +6,12 @@ This document describes the general workflow for creating any engine-agnostic en
 
 Entities reside in `rust/src/core/entity/`. Every entity is defined by its **Core** struct, which represents its pure physics and simulation state.
 
+To automatically generate boilerplate for the `Entity` trait, annotate your struct with `#[derive(EntityCore)]`. This macro requires your struct to have a `config` (containing a `physics` field) and either a `position` or a `definition` (which has a `position`).
+
 ```rust
+use retrotrace_macros::EntityCore;
+
+#[derive(EntityCore)]
 pub struct MyEntityCore {
     pub position: Vec2,
     pub config: MyEntityConfig,
@@ -16,13 +21,26 @@ pub struct MyEntityCore {
 
 ## 2. Implement the `Entity` Trait
 
-The `Entity` trait is the contract between your entity and the world (both the Game and the Generator).
+When using `#[derive(EntityCore)]`, the trait's `get_position()` and `get_shape()` methods are automatically implemented based on your struct fields and `physics` config. 
 
-### Key Methods:
-- **`update(delta)`**: The heartbeat of the entity.
-    - It MUST be deterministic. 
-    - It returns a `Vec<EntityEvent>` (e.g., `SpawnHazard`) to communicate with the world without knowing about Godot nodes or spawner logic.
-- **`get_position()` / `get_radius()`**: Used by the engine for spatial queries.
+You only need to implement the core logic by providing an `update_internal(delta)` method on the struct:
+
+```rust
+impl MyEntityCore {
+    fn update_internal(&mut self, delta: f64) -> Vec<EntityEvent> {
+        // Your deterministic simulation logic here.
+        // It returns a `Vec<EntityEvent>` (e.g., `SpawnHazard`) to communicate with the world without knowing about Godot nodes or spawner logic.
+        Vec::new()
+    }
+}
+```
+
+### The `CollisionShape` Enum:
+Retrotrace supports multiple hitbox types to handle different entity styles:
+- **`Circle { radius }`**: Standard for projectiles and small traps.
+- **`Rectangle { width, height, rotation }`**: Ideal for lasers, barriers, and long obstacles.
+
+The engine provides a `get_radius()` helper on the trait which returns the "bounding radius" of the shape, useful for quick broad-phase optimizations.
 
 ## 3. The Event-Driven Loop
 

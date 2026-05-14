@@ -11,19 +11,34 @@ To support the [Iterative Forward Rejection (IFR)](./iterative_forward_rejection
 
 This split ensures that every simulation attempt starts with a perfectly clean state, as the generator creates a fresh **Core** from the **Definition** for every run.
 
-## 2. Implement the Trap Definition (`TrapDefinition` Trait)
+## 2. Implement the Trap Definition
 
-All trap definitions reside in `rust/src/core/entity/` and must implement `TrapDefinition`.
+All trap definitions reside in `rust/src/core/entity/`. To reduce boilerplate, use the `#[derive(TrapCore)]` and `#[derive(TrapParams)]` macros. The `TrapCore` macro automatically generates the implementations for `clone_box`, `get_position`, and `get_shape` (reading from the config's `physics.shape`). 
+
+It delegates the core logic to two internal methods you must implement: `apply_nudge_internal` and `instantiate_simulation_internal`.
 
 ### Requirements:
 - **`new`**: Constructor must take `&mut ChaCha20Rng` to ensure deterministic initial parameters.
-- **`instantiate_simulation`**: Returns a fresh `Box<dyn Entity>` (usually your `TrapCore`).
-- **`apply_nudge`**: Implement stochastic perturbation. Randomly shift your parameters (e.g., angle, timer) using the provided `rng`.
-- **`get_custom_params`**: Return a `HashMap` of configuration values (like `firing_angle`) that Godot needs for rendering.
-- **`clone_box`**: Boilerplate for trait object cloning.
+- **`instantiate_simulation_internal`**: Returns a fresh `Box<dyn Entity>` (usually your `TrapCore`).
+- **`apply_nudge_internal`**: Implement stochastic perturbation. Randomly shift your parameters (e.g., angle, timer) using the provided `rng`.
+- **`#[param]`**: Annotate any fields in your definition that should be sent to Godot as custom parameters for rendering.
 
 Example:
 ```rust
+use retrotrace_macros::{EntityCore, TrapCore, TrapParams};
+
+#[derive(Clone, Debug, TrapParams, TrapCore)]
+pub struct MyTrapDefinition {
+    pub position: Vec2,
+    pub config: MyTrapConfig,
+    
+    #[param]
+    pub firing_angle: f64, 
+    
+    #[param]
+    pub starting_timer: f64,
+}
+
 impl MyTrapDefinition {
     pub fn new(position: Vec2, config: MyTrapConfig, rng: &mut ChaCha20Rng) -> Self {
         Self {
@@ -33,16 +48,18 @@ impl MyTrapDefinition {
             starting_timer: 0.0,
         }
     }
-}
 
-impl TrapDefinition for MyTrapDefinition {
-    fn instantiate_simulation(&self) -> Box<dyn Entity> {
+    fn apply_nudge_internal(&mut self, attempt: usize, rng: &mut ChaCha20Rng) -> bool {
+        self.firing_angle += rng.gen_range(-180.0..180.0f64).to_radians();
+        true
+    }
+
+    fn instantiate_simulation_internal(&self) -> Box<dyn Entity> {
         Box::new(MyTrapCore {
             definition: self.clone(),
             timer: self.starting_timer,
         })
     }
-    // ... rest of trait methods ...
 }
 ```
 

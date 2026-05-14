@@ -43,7 +43,7 @@ The "Brain" of the game. This layer contains the pure simulation logic, physics,
       fn update(&mut self, delta: f64) -> Vec<EntityEvent>;
       
       fn get_position(&self) -> Vec2;
-      fn get_radius(&self) -> f64;
+      fn get_shape(&self) -> CollisionShape;
   }
   ```
 
